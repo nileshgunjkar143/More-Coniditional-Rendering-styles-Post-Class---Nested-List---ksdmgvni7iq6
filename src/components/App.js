@@ -154,8 +154,65 @@ const states = [
   },
 ];
 
+
 function App() {
-  return <div id="main"></div>;
+  const [cityIndex,setCityIndex] = useState(0);
+	const [cityTrue,setCityTrue] = useState(false);
+
+	const [townIndex,setTownIndex] = useState(0);
+	const [townTrue,setTownTrue] = useState(false);
+
+	const nestCity = (e) => {
+		// console.log(e.target.value);
+		setCityIndex(e.target.value)
+		setCityTrue(!cityTrue);
+	}
+
+	const nestTown = (e) => {
+		setTownIndex(e.target.value);
+		setTownTrue(!townTrue);
+	}
+
+  return( 
+      <div id="main">
+        <ul onClick={nestCity}>
+          {
+            states.map((state,i) => {
+              return( 
+              <div>
+              <li type="none" key={i+1} value={i} id={`state${i+1}`}>{state.name}
+              
+              </li>
+              </div>						
+              )
+            })
+          }
+        </ul>
+        {
+          cityTrue
+          ?
+          <ul onClick={nestTown}>
+            {
+              states[cityIndex].cities.map((city,i) => {
+                return <li type="none" key={i+1} value={i} id={`city${i+1}`}>{city.name}</li>
+              })
+            }
+          </ul>
+          :
+          ('')
+        }
+        {
+          townTrue
+          ?
+          states[cityIndex].cities[townIndex].towns.map((town,i) => {
+            return <li type="none" key={i+1} value={i} id={`town${i+1}`}>{town.name}</li>
+          })
+          :
+          ('')
+        }
+        
+      </div>
+      )
 }
 
 export default App;
